@@ -10,6 +10,7 @@ module.exports = {
     'plugin:react/recommended', // Agregado
     'plugin:react/jsx-runtime', // Agregado
   ],
+  
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
