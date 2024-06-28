@@ -2,17 +2,21 @@
 from rest_framework import serializers
 from .models import CustomUser
 from django.contrib.auth.hashers import make_password
+
+# Serializer para el modelo CustomUser
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
+        model = CustomUser # Especificar el modelo que será serializado
         fields = (
             'id', 'user_type','user_name', 'email', 'password', 'paternal_last_name',
             'maternal_last_name', 'phone', 'gender', 'date_of_birth',
             'receive_updates'
-        )
-        extra_kwargs = {'password': {'write_only': True}}
+        ) # Campos que serán incluidos en la serialización
+        extra_kwargs = {'password': {'write_only': True}} # Configuración adicional para el campo passwords
 
+# El método create para manejar la creación de usuarios
     def create(self, validated_data):
+         # Crea una instancia de CustomUser con los datos validados
         user = CustomUser(
             email=validated_data['email'],
             user_name=validated_data['user_name'],
@@ -24,6 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
             date_of_birth=validated_data['date_of_birth'],
             receive_updates=validated_data['receive_updates'],
         )
+         # Encripta la contraseña antes de guardarla en la base de datos
         user.password = make_password(validated_data['password']) 
-        user.save()
-        return user
+        user.save()  # Guarda el usuario en la base de datos
+        return user # Retorna la instancia del usuario creado

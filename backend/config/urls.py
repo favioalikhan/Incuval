@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView #Importa la vista genérica basada en plantilla.
 from django.conf import settings
-from django.conf.urls.static import static
+from django.conf.urls.static import static # Importa la función para servir archivos estáticos.
 from django.shortcuts import render
 
 
@@ -26,10 +26,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
    # path('', index_view, name='index'),  # Añade esta línea
     path('', TemplateView.as_view(template_name='index.html')),
-     path('api/users/', include('apps.users.urls')),
+     path('api/users/', include('apps.Clientes.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Añade esta línea al final
-if settings.DEBUG:
+if settings.DEBUG:  #Añade nuevamente las rutas para servir archivos estáticos si el modo de depuración está activado
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # Añade rutas para servir archivos estáticos basados en la configuración de URL estáticas y el directorio raíz de los archivos estáticos.
+
 

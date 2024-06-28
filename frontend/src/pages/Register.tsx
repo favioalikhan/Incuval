@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import coverImage from '../assets/Cover.png';
 
+// Definición de las propiedades que recibirá el componente Register
 interface RegisterProps {
   type: 'emprendedor' | 'mentor';
 } 
 
+// Definición de la respuesta esperada del registro de usuario
 interface RegisterResponse {
   id: number;
   username: string;
@@ -19,7 +21,7 @@ interface RegisterResponse {
   receive_updates: boolean;
 }
 
-
+// Componente funcional de React para el formulario de registro
 const Register: React.FC<RegisterProps> = ({ type }) => {
   const [email, setEmail] = useState('');
   const [userName, setUserName] = useState('');
@@ -32,9 +34,11 @@ const Register: React.FC<RegisterProps> = ({ type }) => {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [receiveUpdates, setReceiveUpdates] = useState(false);
 
+  // Función para manejar el envío del formulario
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Función asíncrona para registrar al usuario
     const registerUser = async () => {
       try {
         const response = await fetch('http://127.0.0.1:8000/api/users/', {
@@ -66,7 +70,7 @@ const Register: React.FC<RegisterProps> = ({ type }) => {
         console.error('Error:', error);
       }
     };
-
+    // Llamada a la función registerUser y manejo de errores
     registerUser().catch(error => console.error('Error in registerUser:', error));
   };
 
@@ -153,7 +157,7 @@ const Register: React.FC<RegisterProps> = ({ type }) => {
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-navy-blue mb-2">Celular</label>
-                  <input
+                  <input 
                     type="text"
                     id="phone"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
