@@ -1,12 +1,12 @@
 # apps/users/serializers.py
 from rest_framework import serializers
 from .models import CustomUser
-
+from django.contrib.auth.hashers import make_password
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = (
-            'id', 'username', 'email', 'password', 'user_type', 'paternal_last_name',
+            'id', 'user_type','user_name', 'email', 'password', 'paternal_last_name',
             'maternal_last_name', 'phone', 'gender', 'date_of_birth',
             'receive_updates'
         )
@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = CustomUser(
             email=validated_data['email'],
-            username=validated_data['username'],
+            user_name=validated_data['user_name'],
             user_type=validated_data['user_type'],
             paternal_last_name=validated_data['paternal_last_name'],
             maternal_last_name=validated_data['maternal_last_name'],
@@ -24,6 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
             date_of_birth=validated_data['date_of_birth'],
             receive_updates=validated_data['receive_updates'],
         )
-        user.set_password(validated_data['password'])
+        user.password = make_password(validated_data['password']) 
         user.save()
         return user

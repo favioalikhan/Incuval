@@ -22,7 +22,7 @@ interface RegisterResponse {
 
 const Register: React.FC<RegisterProps> = ({ type }) => {
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [userName, setUserName] = useState('');
   const [paternalLastName, setPaternalLastName] = useState('');
   const [maternalLastName, setMaternalLastName] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +44,7 @@ const Register: React.FC<RegisterProps> = ({ type }) => {
           },
           body: JSON.stringify({
             email,
-            name,
+            user_name: userName,
             paternal_last_name: paternalLastName,
             maternal_last_name: maternalLastName,
             password,
@@ -96,14 +96,14 @@ const Register: React.FC<RegisterProps> = ({ type }) => {
               </div>
             
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-navy-blue mb-2">Nombres</label>
+                <label htmlFor="userName" className="block text-sm font-medium text-navy-blue mb-2">Nombres</label>
                 <input
                   type="text"
-                  id="name"
+                  id="userName"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   placeholder="e.g. Pepito Juancho"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
                   required
                 />
               </div>
@@ -147,6 +147,7 @@ const Register: React.FC<RegisterProps> = ({ type }) => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    placeholder="***************"
                     required
                   />
                 </div>
