@@ -5,6 +5,21 @@ interface RegisterProps {
   type: 'emprendedor' | 'mentor';
 } 
 
+interface RegisterResponse {
+  id: number;
+  username: string;
+  email: string;
+  user_type: string;
+  paternal_last_name: string;
+  maternal_last_name: string;
+  phone: string;
+  gender: string;
+  date_of_birth: string;
+  agree_terms: boolean;
+  receive_updates: boolean;
+}
+
+
 const Register: React.FC<RegisterProps> = ({ type }) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -12,16 +27,49 @@ const Register: React.FC<RegisterProps> = ({ type }) => {
   const [maternalLastName, setMaternalLastName] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState(''); 
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [receiveUpdates, setReceiveUpdates] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí iría la lógica de registro
-    console.log('Registro enviado', { email, name, paternalLastName, maternalLastName, password, phone, agreeTerms, receiveUpdates });
+
+    const registerUser = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/users/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email,
+            name,
+            paternal_last_name: paternalLastName,
+            maternal_last_name: maternalLastName,
+            password,
+            phone,
+            gender,
+            date_of_birth: dateOfBirth,
+            receive_updates: receiveUpdates,
+            user_type: type,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data: RegisterResponse = await response.json() as RegisterResponse;
+        console.log(data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    registerUser().catch(error => console.error('Error in registerUser:', error));
   };
+
 
   return (
     <div className="flex flex-col md:flex-row bg-white h-screen">

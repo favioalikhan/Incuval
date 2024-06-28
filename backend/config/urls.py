@@ -15,21 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, include
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import render
-
-def index_view(request):
-   return render(request, 'dist/index.html') 
-
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
    # path('', index_view, name='index'),  # Añade esta línea
     path('', TemplateView.as_view(template_name='index.html')),
+     path('api/users/', include('apps.users.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Añade esta línea al final
